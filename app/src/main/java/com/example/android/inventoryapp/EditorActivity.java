@@ -208,7 +208,7 @@ public class EditorActivity implements LoaderManager.LoaderCallbacks<Cursor> {
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
                 // If the Item hasn't changed, continue with navigating up to parent activity
-                // which is the {@link CatalogActivity}.
+                // which is the {@link MainActivity}.
                 if (!mItemHasChanged) {
                     NavUtils.navigateUpFromSameTask(EditorActivity.this);
                     return true;

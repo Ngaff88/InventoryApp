@@ -88,12 +88,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      */
     private void deleteAllItems() {
         int rowsDeleted = getContentResolver().delete(InventoryEntry.CONTENT_URI, null, null);
-        Log.v("CatalogActivity", rowsDeleted + " rows deleted from item database");
+        Log.v("MainActivity", rowsDeleted + " rows deleted from item database");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu options from the res/menu/menu_catalog.xml file.
+        // Inflate the menu options from the res/menu/menu_main.xml file.
         // This adds menu items to the app bar.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
