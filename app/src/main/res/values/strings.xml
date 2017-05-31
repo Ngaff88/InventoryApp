@@ -16,7 +16,7 @@
 
 
     <!-- Label for overflow menu option that deletes all Item data in the app [CHAR LIMIT=20] -->
-    <string name="action_delete_all_entries">Delete All Items</string>
+    <string name="action_delete_all_entries">Clear List</string>
 
     <!-- Title text for the empty view, which describes the empty dog house image [CHAR LIMIT=50] -->
     <string name="empty_view_title_text">It\'s a bit empty in the Shop…</string>

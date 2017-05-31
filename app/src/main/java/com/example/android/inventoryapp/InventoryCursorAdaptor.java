@@ -62,8 +62,8 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         int quantity = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
 
         String invName = cursor.getString(name);
-        String invPrice = cursor.getString(price);
-        String invStock = cursor.getString(quantity);
+        String invPrice = "Price: $" + cursor.getString(price);
+        String invStock = "We currently have " + cursor.getString(quantity) + " in Stock";
 
 
         // Populate fields with extracted properties
