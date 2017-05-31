@@ -63,7 +63,13 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
         String invName = cursor.getString(name);
         String invPrice = "Price: $" + cursor.getString(price);
+        if (TextUtils.isEmpty(invPrice) | price == 0){
+            invPrice = "Free";
+        }
         String invStock = "We currently have " + cursor.getString(quantity) + " in Stock";
+        if(TextUtils.isEmpty(invStock) | quantity == 0){
+            invStock = "We are sold out! Order more as soon as possible!";
+        }
 
 
         // Populate fields with extracted properties
