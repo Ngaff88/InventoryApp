@@ -28,7 +28,7 @@ import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
  * Created by Nicholas on 5/24/2017.
  */
 
-public class EditorActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     /** Identifier for the Inventory data loader */
     private static final int EXISTING_ITEM_LOADER = 0;
 
@@ -38,10 +38,10 @@ public class EditorActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     /** EditText field to enter the Item's name */
     private EditText mNameEditText;
 
-    /** EditText field to enter the Item's breed */
+    /** EditText field to enter the Item's price */
     private EditText mPriceEditText;
 
-    /** EditText field to enter the Item's weight */
+    /** EditText field to enter the Item's quantity */
     private EditText mQuantityEditText;
 
 
@@ -122,13 +122,13 @@ public class EditorActivity implements LoaderManager.LoaderCallbacks<Cursor> {
         values.put(InventoryEntry.Column_Item_Name, nameString);
         values.put(InventoryEntry.Column_Item_Price, priceString);
         values.put(InventoryEntry.Column_Item_Quantity, quantityString);
-        // If the weight is not provided by the user, don't try to parse the string into an
+        // If the quantity is not provided by the user, don't try to parse the string into an
         // integer value. Use 0 by default.
-        int weight = 0;
+        int quantity = 0;
         if (!TextUtils.isEmpty(quantityString)) {
-            weight = Integer.parseInt(quantityString);
+            quantity = Integer.parseInt(quantityString);
         }
-        values.put(InventoryEntry.Column_Item_Quantity, weight);
+        values.put(InventoryEntry.Column_Item_Quantity, quantity);
 
         // Determine if this is a new or existing Item by checking if mCurrentItemUri is null or not
         if (mCurrentItemUri == null) {
@@ -290,18 +290,18 @@ public class EditorActivity implements LoaderManager.LoaderCallbacks<Cursor> {
         if (cursor.moveToFirst()) {
             // Find the columns of Item attributes that we're interested in
             int nameColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Name);
-            int breedColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
-            int weightColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
+            int priceColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
+            int quantityColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
 
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
-            String breed = cursor.getString(breedColumnIndex);
-            int weight = cursor.getInt(weightColumnIndex);
+            String price = cursor.getString(priceColumnIndex);
+            int quantity = cursor.getInt(quantityColumnIndex);
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
-            mPriceEditText.setText(breed);
-            mQuantityEditText.setText(Integer.toString(weight));
+            mPriceEditText.setText(price);
+            mQuantityEditText.setText(Integer.toString(quantity));
 
         }
     }

@@ -54,13 +54,13 @@
             android:textColor="#A2AAB0"/>
     </RelativeLayout>
 
-    <FloatingActionButton
+    <Button
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
-        android:text="Add and Item"
+        android:text="Add an Item"
         />
 </RelativeLayout>

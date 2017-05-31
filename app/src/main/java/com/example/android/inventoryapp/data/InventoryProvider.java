@@ -218,16 +218,15 @@ public class InventoryProvider extends ContentProvider {
         }
 
         // If the {@link InventoryEntryEntry#Column_Item_Quantity} key is present,
-        // check that the weight value is valid.
+        // check that the quantity value is valid.
         if (values.containsKey(InventoryEntry.Column_Item_Quantity)) {
-            // Check that the weight is greater than or equal to 0 kg
+            // Check that the quantity is greater than or equal to 0 kg
             Integer quantity = values.getAsInteger(InventoryEntry.Column_Item_Quantity);
             if (quantity != null && quantity < 0) {
-                throw new IllegalArgumentException("Item requires valid Weight");
+                throw new IllegalArgumentException("Item requires valid quantity");
             }
         }
 
-        // No need to check the breed, any value is valid (including null).
 
         // If there are no values to update, then don't try to update the database
         if (values.size() == 0) {
