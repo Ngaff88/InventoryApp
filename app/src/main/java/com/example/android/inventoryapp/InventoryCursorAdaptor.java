@@ -56,19 +56,20 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         TextView nameText = (TextView) view.findViewById(R.id.name);
         TextView priceText = (TextView) view.findViewById(R.id.price);
         TextView stockText = (TextView) view.findViewById(R.id.in_stock);
+
         // Extract properties from cursor
         int name = cursor.getColumnIndex(InventoryEntry.Column_Item_Name);
         int price = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
-        int quantity = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
+        int quantity = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
 
         String invName = cursor.getString(name);
         String invPrice = "Price: $" + cursor.getString(price);
-        if (TextUtils.isEmpty(invPrice) | price == 0){
-            invPrice = "Free";
+        if (TextUtils.isEmpty(invPrice) || price == 0){
+            invPrice = context.getString(R.string.free);
         }
         String invStock = "We currently have " + cursor.getString(quantity) + " in Stock";
-        if(TextUtils.isEmpty(invStock) | quantity == 0){
-            invStock = "We are sold out! Order more as soon as possible!";
+        if(TextUtils.isEmpty(invStock) || quantity == 0){
+            invStock = context.getString(R.string.out);
         }
 
 

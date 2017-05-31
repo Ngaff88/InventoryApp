@@ -82,4 +82,10 @@
     <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
     <string name="hint_item_quantity">Quantity</string>
 
+    <!-- Text that appears if the price is not set or set to 0-->
+    <string name="free">Free</string>
+
+    <!-- Text that appears if the quantity is not set or set to 0-->
+    <string name="out">We are sold out! Order more as soon as possible!</string>
+
 </resources>

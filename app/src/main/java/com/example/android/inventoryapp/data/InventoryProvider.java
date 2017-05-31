@@ -128,16 +128,6 @@ public class InventoryProvider extends ContentProvider {
             throw new IllegalArgumentException("Item requires a Name");
         }
 
-        Integer price = values.getAsInteger(InventoryEntry.Column_Item_Price);
-        if (price == null && price < 0) {
-            throw new IllegalArgumentException("Item Requires a Price");
-        }
-
-        Integer quntity = values.getAsInteger(InventoryEntry.Column_Item_Quantity);
-        if (quntity == null && quntity < 0) {
-            throw new IllegalArgumentException("Item Requires a Quntity");
-        }
-
 
         // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
