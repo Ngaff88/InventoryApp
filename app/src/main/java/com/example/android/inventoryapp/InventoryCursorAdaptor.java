@@ -6,7 +6,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
+import static android.content.ContentValues.TAG;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.example.android.inventoryapp.R.id.price;
 
@@ -70,7 +73,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         // Extract properties from cursor
         int name = cursor.getColumnIndex(InventoryEntry.Column_Item_Name);
         int price = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
-        int quantity = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
+        final int quantity = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
 
 
 
@@ -94,12 +97,11 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             public void onClick(View view){
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
-                if (currentQuantity > 0){
-                    int quantityValue = currentQuantity;
+                if (currentQuantity >= 0){
 
-                    values.put(InventoryEntry.Column_Item_Quantity, --quantityValue);
+                    values.put(InventoryEntry.Column_Item_Quantity, currentQuantity - 1);
 
-                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, quantityValue);
+                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, currentQuantity);
                     resolver.update(
                             uri,
                             values,
@@ -108,6 +110,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
 
                 }
+                Log.v(TAG,"currentQuantity = " + currentQuantity);
             }
         });
 
@@ -118,12 +121,11 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             public void onClick(View view){
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
-                if (currentQuantity > 0){
-                    int quantityValue = currentQuantity;
+                if (currentQuantity >= 0){
 
-                    values.put(InventoryEntry.Column_Item_Quantity, quantityValue + 5);
+                    values.put(InventoryEntry.Column_Item_Quantity, currentQuantity + 5);
 
-                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, quantityValue);
+                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, currentQuantity);
                     resolver.update(
                             uri,
                             values,
@@ -132,6 +134,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
 
                 }
+                Log.v(TAG,"currentQuantity = " + currentQuantity);
             }
         });
     }
