@@ -94,7 +94,6 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         nameText.setText(invName);
         priceText.setText(invPrice);
         stockText.setText(invStock);
-        currentQuantity = Integer.parseInt(invStock);
 
         //declare button and initialize it
         Button sellOne = (Button) view.findViewById(R.id.sell);
@@ -103,19 +102,19 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             public void onClick(View view){
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
-                currentQuantity = currentQuantity - 1;
+                quantity = quantity - 1;
 
-                if (currentQuantity < 0){
-                    currentQuantity = 0;
+                if (quantity < 0){
+                    quantity = 0;
                 }
 
-                if (currentQuantity >= 0){
+                if (quantity >= 0){
 
 
 
-                    values.put(InventoryEntry.Column_Item_Quantity, currentQuantity);
+                    values.put(InventoryEntry.Column_Item_Quantity, quantity);
 
-                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI,);
+                    Uri uri = ContentUris.withAppendedId(InventoryContract.BASE_CONTENT_URI, id);
                     resolver.update(
                             uri,
                             values,
@@ -124,7 +123,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
 
                 }
-                Log.v(TAG,"currentQuantity = " + currentQuantity);
+                Log.v(TAG,"currentQuantity = " + quantity);
 
             }
         });
@@ -137,13 +136,13 @@ public class InventoryCursorAdaptor extends CursorAdapter {
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
 
-                currentQuantity = currentQuantity + 5;
+                quantity = quantity + 5;
 
-                if (currentQuantity >= 0){
+                if (quantity >= 0){
 
-                    values.put(InventoryEntry.Column_Item_Quantity, currentQuantity);
+                    values.put(InventoryEntry.Column_Item_Quantity, quantity);
 
-                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, );
+                    Uri uri = ContentUris.withAppendedId(InventoryContract.BASE_CONTENT_URI, id);
                     resolver.update(
                             uri,
                             values,
@@ -152,7 +151,8 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
 
                 }
-                Log.v(TAG,"currentQuantity = " + currentQuantity);
+                Log.v(TAG,"currentQuantity = " + quantity);
+
             }
         });
     }
