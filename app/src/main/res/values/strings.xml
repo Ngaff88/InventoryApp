@@ -83,9 +83,9 @@
     <string name="hint_item_quantity">Quantity</string>
 
     <!-- Text that appears if the price is not set or set to 0-->
-    <string name="free">Free</string>
+    <string name="order">Order 5 More</string>
 
     <!-- Text that appears if the quantity is not set or set to 0-->
-    <string name="out">We are sold out! Order more as soon as possible!</string>
+    <string name="sell">Sell 1</string>
 
 </resources>
