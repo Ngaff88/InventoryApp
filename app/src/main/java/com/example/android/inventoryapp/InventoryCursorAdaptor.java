@@ -77,12 +77,13 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
 
         // Extract properties from cursor
+
         int name = cursor.getColumnIndex(InventoryEntry.Column_Item_Name);
         int price = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
         quantity = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
 
 
-
+        final String idColumn = cursor.getString(cursor.getColumnIndexOrThrow(InventoryEntry._ID));
         String invName = cursor.getString(name);
         String invPrice = "Price: $" + cursor.getString(price);
         invStock = cursor.getString(quantity);
@@ -102,7 +103,6 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             public void onClick(View view){
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
-                quantity = quantity - 1;
 
                 if (quantity < 0){
                     quantity = 0;
@@ -111,9 +111,9 @@ public class InventoryCursorAdaptor extends CursorAdapter {
                 if (quantity >= 0){
 
 
-                    values.put(InventoryEntry.Column_Item_Quantity, quantity);
+                    values.put(InventoryEntry.Column_Item_Quantity, --quantity );
 
-                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
+                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, Long.parseLong(idColumn));
                     resolver.update(
                             uri,
                             values,
@@ -122,6 +122,8 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
 
                 }
+
+
                 Log.v(TAG,"currentQuantity = " + quantity);
                 invStock = cursor.getString(quantity);
                 stockText.setText(invStock);
@@ -137,20 +139,14 @@ public class InventoryCursorAdaptor extends CursorAdapter {
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
 
-                quantity = quantity + 5;
+
 
                 if (quantity >= 0){
 
-                    values.put(InventoryEntry.Column_Item_Quantity, quantity);
+                    values.put(InventoryEntry.Column_Item_Quantity, ++quantity );
 
-                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
-                    resolver.update(
-                            uri,
-                            values,
-                            null,
-                            null);
-
-
+                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, Long.parseLong(idColumn));
+                    resolver.update(uri, values, null, null);
                 }
                 Log.v(TAG,"currentQuantity = " + quantity);
                 invStock = cursor.getString(quantity);
