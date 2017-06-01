@@ -17,6 +17,7 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
+import static android.R.attr.id;
 import static android.content.ContentValues.TAG;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.example.android.inventoryapp.R.id.price;
@@ -88,7 +89,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         nameText.setText(invName);
         priceText.setText(invPrice);
         stockText.setText(invStock);
-        final int currentQuantity = Integer.parseInt(invStock);
+        final int[] currentQuantity = {Integer.parseInt(invStock)};
 
         //declare button and initialize it
         Button sellOne = (Button) view.findViewById(R.id.sell);
@@ -97,11 +98,19 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             public void onClick(View view){
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
-                if (currentQuantity >= 0){
+                currentQuantity[0] = currentQuantity[0] - 1;
 
-                    values.put(InventoryEntry.Column_Item_Quantity, currentQuantity - 1);
+                if (currentQuantity[0] < 0){
+                    currentQuantity[0] = 0;
+                }
 
-                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, currentQuantity);
+                if (currentQuantity[0] >= 0){
+
+
+
+                    values.put(InventoryEntry.Column_Item_Quantity, currentQuantity[0]);
+
+                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
                     resolver.update(
                             uri,
                             values,
@@ -110,7 +119,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
 
                 }
-                Log.v(TAG,"currentQuantity = " + currentQuantity);
+                Log.v(TAG,"currentQuantity = " + currentQuantity[0]);
             }
         });
 
@@ -121,11 +130,14 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             public void onClick(View view){
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
-                if (currentQuantity >= 0){
 
-                    values.put(InventoryEntry.Column_Item_Quantity, currentQuantity + 5);
+                currentQuantity[0] = currentQuantity[0] + 5;
 
-                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, currentQuantity);
+                if (currentQuantity[0] >= 0){
+
+                    values.put(InventoryEntry.Column_Item_Quantity, currentQuantity[0]);
+
+                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
                     resolver.update(
                             uri,
                             values,
@@ -134,7 +146,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
 
                 }
-                Log.v(TAG,"currentQuantity = " + currentQuantity);
+                Log.v(TAG,"currentQuantity = " + currentQuantity[0]);
             }
         });
     }
