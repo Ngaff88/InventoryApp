@@ -161,26 +161,18 @@ public class InventoryProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case STOCK:
-                int rowsUpdated = database.update(InventoryEntry.Table_Name, contentValues, selection, selectionArgs);
-                break;
+                return updateItem(uri, contentValues, selection, selectionArgs);
             case STOCK_ID:
                 // For the STOCK_ID code, extract out the ID from the URI,
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = InventoryEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                break;
+                return updateItem(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
 
-        // Perform the update on the database and get the number of rows affected
-        int rowsUpdated = database.update(InventoryEntry.Table_Name, contentValues, selection, selectionArgs);
-        if (rowsUpdated != 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
-        }
-        // Return the number of rows updated
-        return rowsUpdated;
     }
 
     /**

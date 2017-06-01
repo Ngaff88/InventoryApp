@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+
+import com.example.android.inventoryapp.data.InventoryContract;
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
 import static android.R.attr.id;
@@ -29,6 +31,8 @@ import static com.example.android.inventoryapp.R.id.price;
 public class InventoryCursorAdaptor extends CursorAdapter {
     int quantity;
     int currentQuantity;
+    String invStock;
+    TextView stockText;
 
     /**
      * Constructs a new {@link InventoryCursorAdaptor}.
@@ -69,7 +73,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         // Find fields to populate in inflated template
         TextView nameText = (TextView) view.findViewById(R.id.name);
         TextView priceText = (TextView) view.findViewById(price);
-        TextView stockText = (TextView) view.findViewById(R.id.in_stock);
+        stockText = (TextView) view.findViewById(R.id.in_stock);
 
 
         // Extract properties from cursor
@@ -81,7 +85,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
         String invName = cursor.getString(name);
         String invPrice = "Price: $" + cursor.getString(price);
-       final String invStock = cursor.getString(quantity);
+        invStock = cursor.getString(quantity);
 
 
 
@@ -111,7 +115,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
                     values.put(InventoryEntry.Column_Item_Quantity, currentQuantity);
 
-                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
+                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI,);
                     resolver.update(
                             uri,
                             values,
@@ -121,6 +125,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
                 }
                 Log.v(TAG,"currentQuantity = " + currentQuantity);
+
             }
         });
 
@@ -138,7 +143,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
                     values.put(InventoryEntry.Column_Item_Quantity, currentQuantity);
 
-                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
+                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, );
                     resolver.update(
                             uri,
                             values,
