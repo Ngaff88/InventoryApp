@@ -110,11 +110,10 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
                 if (quantity >= 0){
 
+                    
+                    values.put(InventoryEntry.Column_Item_Quantity, invStock);
 
-
-                    values.put(InventoryEntry.Column_Item_Quantity, quantity);
-
-                    Uri uri = ContentUris.withAppendedId(InventoryContract.BASE_CONTENT_URI, id);
+                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
                     resolver.update(
                             uri,
                             values,
@@ -124,6 +123,8 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
                 }
                 Log.v(TAG,"currentQuantity = " + quantity);
+                invStock = cursor.getString(quantity);
+                stockText.setText(invStock);
 
             }
         });
@@ -140,9 +141,9 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
                 if (quantity >= 0){
 
-                    values.put(InventoryEntry.Column_Item_Quantity, quantity);
+                    values.put(InventoryEntry.Column_Item_Quantity, invStock);
 
-                    Uri uri = ContentUris.withAppendedId(InventoryContract.BASE_CONTENT_URI, id);
+                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
                     resolver.update(
                             uri,
                             values,
@@ -152,6 +153,8 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
                 }
                 Log.v(TAG,"currentQuantity = " + quantity);
+                invStock = cursor.getString(quantity);
+                stockText.setText(invStock);
 
             }
         });
