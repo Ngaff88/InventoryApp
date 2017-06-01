@@ -110,8 +110,8 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
                 if (quantity >= 0){
 
-                    
-                    values.put(InventoryEntry.Column_Item_Quantity, invStock);
+
+                    values.put(InventoryEntry.Column_Item_Quantity, quantity);
 
                     Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
                     resolver.update(
@@ -141,7 +141,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
                 if (quantity >= 0){
 
-                    values.put(InventoryEntry.Column_Item_Quantity, invStock);
+                    values.put(InventoryEntry.Column_Item_Quantity, quantity);
 
                     Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
                     resolver.update(
