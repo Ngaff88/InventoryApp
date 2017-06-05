@@ -124,7 +124,8 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
 
                 Log.v(TAG,"currentQuantity = " + quantity);
-                stockText.setText(quantity);
+                String newStock = cursor.getString(quantity);
+                stockText.setText(newStock);
 
             }
         });
@@ -136,18 +137,19 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             public void onClick(View view){
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
-
+                    quantity = quantity + 5;
 
 
                 if (quantity >= 0){
 
-                    values.put(InventoryEntry.Column_Item_Quantity, ++quantity );
+                    values.put(InventoryEntry.Column_Item_Quantity, quantity );
 
                     Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, Long.parseLong(idColumn));
                     resolver.update(uri, values, null, null);
                 }
                 Log.v(TAG,"currentQuantity = " + quantity);
-                stockText.setText(quantity);
+                String newStock = cursor.getString(quantity);
+                stockText.setText(newStock);
 
             }
         });
