@@ -145,4 +145,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Callback called when the data needs to be deleted
         mCursorAdapter.swapCursor(null);
     }
+
+
 }

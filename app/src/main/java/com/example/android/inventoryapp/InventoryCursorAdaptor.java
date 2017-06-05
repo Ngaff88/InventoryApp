@@ -85,7 +85,13 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         final String idColumn = cursor.getString(cursor.getColumnIndexOrThrow(InventoryEntry._ID));
         String invName = cursor.getString(name);
         String invPrice = "Price: $" + cursor.getString(price);
+        if (cursor.getString(price) == "0") {
+            invPrice = "Free";
+        }
         invStock = cursor.getString(quantity);
+        if (quantity == 0){
+            invStock = "None Left";
+        }
 
 
 
@@ -102,7 +108,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             public void onClick(View view){
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
-
+                --quantity;
                 if (quantity <= 0){
                     quantity = 0;
                 }
@@ -110,21 +116,19 @@ public class InventoryCursorAdaptor extends CursorAdapter {
                 if (quantity > 0){
 
 
-                    values.put(InventoryEntry.Column_Item_Quantity, --quantity );
+                    values.put(InventoryEntry.Column_Item_Quantity, quantity );
 
                     Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, Long.parseLong(idColumn));
-                    resolver.update(
-                            uri,
-                            values,
-                            null,
-                            null);
+                    resolver.update(uri, values, null, null);
 
 
                 }
 
-
                 Log.v(TAG,"currentQuantity = " + quantity);
-                String newStock = cursor.getString(quantity);
+                String newStock = cursor.getString(cursor.getColumnIndexOrThrow(InventoryEntry.Column_Item_Quantity));
+                if (quantity == 0){
+                    newStock = "None Left";
+                }
                 stockText.setText(newStock);
 
             }
@@ -137,8 +141,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             public void onClick(View view){
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
-                    quantity = quantity + 5;
-
+                ++quantity;
 
                 if (quantity >= 0){
 
@@ -148,7 +151,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
                     resolver.update(uri, values, null, null);
                 }
                 Log.v(TAG,"currentQuantity = " + quantity);
-                String newStock = cursor.getString(quantity);
+                String newStock = cursor.getString(cursor.getColumnIndexOrThrow(InventoryEntry.Column_Item_Quantity));
                 stockText.setText(newStock);
 
             }

@@ -108,7 +108,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /**
      * Get user input from editor and save Item into database.
      */
-    private void saveItem() {
+    public  void saveItem() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String nameString = mNameEditText.getText().toString().trim();
