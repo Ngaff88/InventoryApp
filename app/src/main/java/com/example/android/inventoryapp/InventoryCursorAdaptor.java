@@ -30,7 +30,6 @@ import static com.example.android.inventoryapp.R.id.price;
 
 public class InventoryCursorAdaptor extends CursorAdapter {
     int quantity;
-    int currentQuantity;
     String invStock;
     TextView stockText;
 
@@ -104,11 +103,11 @@ public class InventoryCursorAdaptor extends CursorAdapter {
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
 
-                if (quantity < 0){
+                if (quantity <= 0){
                     quantity = 0;
                 }
 
-                if (quantity >= 0){
+                if (quantity > 0){
 
 
                     values.put(InventoryEntry.Column_Item_Quantity, --quantity );
@@ -125,8 +124,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
 
                 Log.v(TAG,"currentQuantity = " + quantity);
-                invStock = cursor.getString(quantity);
-                stockText.setText(invStock);
+                stockText.setText(quantity);
 
             }
         });
@@ -149,8 +147,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
                     resolver.update(uri, values, null, null);
                 }
                 Log.v(TAG,"currentQuantity = " + quantity);
-                invStock = cursor.getString(quantity);
-                stockText.setText(invStock);
+                stockText.setText(quantity);
 
             }
         });
