@@ -33,6 +33,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
     String invStock;
     TextView stockText;
 
+
     /**
      * Constructs a new {@link InventoryCursorAdaptor}.
      *
@@ -80,6 +81,8 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         int name = cursor.getColumnIndex(InventoryEntry.Column_Item_Name);
         int price = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
         quantity = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
+        final int[] currentquantity = {cursor.getInt(quantity)};
+
 
 
         final String idColumn = cursor.getString(cursor.getColumnIndexOrThrow(InventoryEntry._ID));
@@ -101,6 +104,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         priceText.setText(invPrice);
         stockText.setText(invStock);
 
+
         //declare button and initialize it
         Button sellOne = (Button) view.findViewById(R.id.sell);
         sellOne.setOnClickListener(new View.OnClickListener(){
@@ -108,15 +112,16 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             public void onClick(View view){
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
-                --quantity;
-                if (quantity <= 0){
-                    quantity = 0;
+
+                --currentquantity[0];
+                if (currentquantity[0] <= 0){
+                    currentquantity[0] = 0;
                 }
 
-                if (quantity > 0){
+                if (currentquantity[0] > 0){
 
 
-                    values.put(InventoryEntry.Column_Item_Quantity, quantity );
+                    values.put(InventoryEntry.Column_Item_Quantity, currentquantity[0] );
 
                     Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, Long.parseLong(idColumn));
                     resolver.update(uri, values, null, null);
@@ -124,9 +129,9 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
                 }
 
-                Log.v(TAG,"currentQuantity = " + quantity);
-                String newStock = cursor.getString(cursor.getColumnIndexOrThrow(InventoryEntry.Column_Item_Quantity));
-                if (quantity == 0){
+                Log.v(TAG,"currentQuantity = " + currentquantity[0]);
+                String newStock = String.valueOf(currentquantity[0]);
+                if (currentquantity[0] == 0){
                     newStock = "None Left";
                 }
                 stockText.setText(newStock);
@@ -141,17 +146,19 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             public void onClick(View view){
                 ContentResolver resolver = view.getContext().getContentResolver();
                 ContentValues values = new ContentValues();
-                ++quantity;
 
-                if (quantity >= 0){
+                currentquantity[0] = currentquantity[0] + 5;
 
-                    values.put(InventoryEntry.Column_Item_Quantity, quantity );
+
+                if (currentquantity[0] >= 0){
+
+                    values.put(InventoryEntry.Column_Item_Quantity, currentquantity[0]);
 
                     Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, Long.parseLong(idColumn));
                     resolver.update(uri, values, null, null);
                 }
-                Log.v(TAG,"currentQuantity = " + quantity);
-                String newStock = cursor.getString(cursor.getColumnIndexOrThrow(InventoryEntry.Column_Item_Quantity));
+                Log.v(TAG,"currentQuantity = " + currentquantity[0]);
+                String newStock = String.valueOf(currentquantity[0]);
                 stockText.setText(newStock);
 
             }
