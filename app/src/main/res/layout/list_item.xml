@@ -44,12 +44,18 @@
             android:id="@+id/order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/order"/>
+            android:text="@string/order"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            />
         <Button
             android:id="@+id/sell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sell"/>
+            android:text="@string/sell"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            />
 
     </LinearLayout>
 </LinearLayout>

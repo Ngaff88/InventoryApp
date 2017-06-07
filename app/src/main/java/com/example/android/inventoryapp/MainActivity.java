@@ -120,14 +120,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // Define a projection that specifies the columns from the table we care about.
         String[] projection = {
-                InventoryEntry._ID,
-                InventoryEntry.Column_Item_Name,
-                InventoryEntry.Column_Item_Price,
-                InventoryEntry.Column_Item_Quantity};
+                InventoryContract.InventoryEntry._ID,
+                InventoryContract.InventoryEntry.Column_Item_Name,
+                InventoryContract.InventoryEntry.Column_Item_Price,
+                InventoryContract.InventoryEntry.Column_Item_Quantity};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
-                InventoryEntry.CONTENT_URI,   // Provider content URI to query
+                InventoryContract.InventoryEntry.CONTENT_URI,   // Provider content URI to query
                 projection,             // Columns to include in the resulting Cursor
                 null,                   // No selection clause
                 null,                   // No selection arguments

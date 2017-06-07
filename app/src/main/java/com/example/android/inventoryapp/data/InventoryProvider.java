@@ -128,6 +128,15 @@ public class InventoryProvider extends ContentProvider {
             throw new IllegalArgumentException("Item requires a Name");
         }
 
+        String price = values.getAsString(InventoryEntry.Column_Item_Price);
+        if (name == null) {
+            throw new IllegalArgumentException("Item requires a Price");
+        }
+
+        String qty = values.getAsString(InventoryEntry.Column_Item_Quantity);
+        if (name == null) {
+            throw new IllegalArgumentException("Item requires a Quantity");
+        }
 
         // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
@@ -180,7 +189,7 @@ public class InventoryProvider extends ContentProvider {
      * specified in the selection and selection arguments (which could be 0 or 1 or more items).
      * Return the number of rows that were successfully updated.
      */
-    private int updateItem(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    private  int updateItem(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         // If the {@link InventoryEntry#Column_Item_Name} key is present,
         // check that the name value is not null.
         if (values.containsKey(InventoryEntry.Column_Item_Name)) {
@@ -217,9 +226,11 @@ public class InventoryProvider extends ContentProvider {
 
         // Otherwise, get writeable database to update the data
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
-
+        int rows = database.update(InventoryEntry.Table_Name, values, selection, selectionArgs);
         // Returns the number of database rows affected by the update statement
-        return database.update(InventoryEntry.Table_Name, values, selection, selectionArgs);
+        getContext().getContentResolver().notifyChange(uri, null);
+        return rows;
+
     }
 
 
