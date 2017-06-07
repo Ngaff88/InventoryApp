@@ -6,8 +6,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.nfc.Tag;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +14,9 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import com.example.android.inventoryapp.data.InventoryContract;
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
-import static android.R.attr.id;
 import static android.content.ContentValues.TAG;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.example.android.inventoryapp.R.id.price;
 
 /**
@@ -29,10 +24,10 @@ import static com.example.android.inventoryapp.R.id.price;
  */
 
 public class InventoryCursorAdaptor extends CursorAdapter {
-    int quantity;
+    /*int quantity;
     String invStock;
-    TextView stockText;
-
+    TextView stockText;*/
+    // Uri uri;
 
     /**
      * Constructs a new {@link InventoryCursorAdaptor}.
@@ -69,31 +64,31 @@ public class InventoryCursorAdaptor extends CursorAdapter {
      *                correct row.
      */
     @Override
-    public void bindView(View view, Context context, final Cursor cursor) {
+    public void bindView(View view, final Context context, final Cursor cursor) {
         // Find fields to populate in inflated template
         final TextView nameText = (TextView) view.findViewById(R.id.name);
         final TextView priceText = (TextView) view.findViewById(price);
-        stockText = (TextView) view.findViewById(R.id.in_stock);
+        final TextView stockText = (TextView) view.findViewById(R.id.in_stock);
 
 
         // Extract properties from cursor
 
-        final int i = cursor.getColumnIndex(InventoryEntry._ID);
+        final String i =  cursor.getString(cursor.getColumnIndex(InventoryEntry._ID));
         int name = cursor.getColumnIndex(InventoryEntry.Column_Item_Name);
-        int price = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
-        quantity = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
+        final int price = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
+        int quantity = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
         int currentquantity = cursor.getInt(quantity);
+        final Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, Long.parseLong(i));
 
-
-        final String idColumn = cursor.getString(cursor.getColumnIndexOrThrow(InventoryEntry._ID));
+        //final String idColumn = cursor.getString(cursor.getColumnIndexOrThrow(InventoryEntry._ID));
         final String invName = cursor.getString(name);
-        String invPrice = "Price: $" + cursor.getString(price);
+        String invPrice =  cursor.getString(price);
         if (cursor.getString(price).equals("0")) {
             invPrice = "Free";
         }
         //   invStock = cursor.getString(quantity);
         if (quantity == 0) {
-            invStock = "None Left";
+            String invStock = "None Left";
         }
 
 
@@ -108,8 +103,8 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         sellOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ContentResolver resolver = view.getContext().getContentResolver();
-                ContentValues values = new ContentValues();
+
+
 
                 int qty = Integer.parseInt(stockText.getText().toString());
                 --qty;
@@ -117,15 +112,19 @@ public class InventoryCursorAdaptor extends CursorAdapter {
                     qty = 0;
                 }
 
-                if (qty > 0) {
+                stockText.setText(String.valueOf(qty));
 
+
+                if (qty >= 0) {
+                    ContentResolver resolver = context.getContentResolver();
+                    ContentValues values = new ContentValues();
                     values.put(InventoryEntry.Column_Item_Name,nameText.getText().toString() );
                     values.put(InventoryEntry.Column_Item_Price, priceText.getText().toString());
                     values.put(InventoryEntry.Column_Item_Quantity, qty);
 
-                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, Long.parseLong(idColumn));
-                    int rowsAffected = resolver.update(uri, values, null, null);
 
+                    int rowsAffected = resolver.update(uri, values, null, null);
+                    Log.v(TAG, "rowsaffected = " + rowsAffected);
 
                 }
 
@@ -140,29 +139,35 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         });
 
         //declare button and initialize it
-        /*Button orderFive = (Button) view.findViewById(R.id.order);
+        Button orderFive = (Button) view.findViewById(R.id.order);
         orderFive.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                ContentResolver resolver = view.getContext().getContentResolver();
-                ContentValues values = new ContentValues();
 
-                currentquantity = currentquantity + 5;
+                int qty = Integer.parseInt(stockText.getText().toString());
 
 
-                if (currentquantity >= 0){
+                qty = qty + 5;
 
-                    values.put(InventoryEntry.Column_Item_Quantity, currentquantity);
 
-                    Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, Long.parseLong(idColumn));
-                    resolver.update(uri, values, null, null);
+                if (qty >= 0){
+
+                    ContentResolver resolver = view.getContext().getContentResolver();
+                    ContentValues values = new ContentValues();
+                    values.put(InventoryEntry.Column_Item_Name,nameText.getText().toString() );
+                    values.put(InventoryEntry.Column_Item_Price, priceText.getText().toString());
+                    values.put(InventoryEntry.Column_Item_Quantity, qty);
+
+                    int rowsAffected = resolver.update(uri, values, null, null);
+                    Log.v(TAG, "rowsaffected = " + rowsAffected);
+
                 }
-                Log.v(TAG,"currentQuantity = " + currentquantity);
-                String newStock = String.valueOf(currentquantity);
+                Log.v(TAG,"currentQuantity = " + qty);
+                String newStock = String.valueOf(qty);
                 stockText.setText(newStock);
 
             }
         });
-    }*/
+
     }
 }
