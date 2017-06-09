@@ -137,6 +137,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String nameString = mNameEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
+        ImageView image = mImageView;
 
 
 
@@ -147,6 +148,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         values.put(InventoryEntry.Column_Item_Name, nameString);
         values.put(InventoryEntry.Column_Item_Price, priceString);
         values.put(InventoryEntry.Column_Item_Quantity, quantityString);
+
+
 
         // If the quantity is not provided by the user, don't try to parse the string into an
         // integer value. Use 0 by default.
