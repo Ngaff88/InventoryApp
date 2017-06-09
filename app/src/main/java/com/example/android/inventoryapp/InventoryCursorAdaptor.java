@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
@@ -124,11 +125,11 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
 
                     int rowsAffected = resolver.update(uri, values, null, null);
-                    Log.v(TAG, "rowsaffected = " + rowsAffected);
+
 
                 }
 
-                Log.v(TAG, "currentQuantity = " + qty);
+
                 String newStock = String.valueOf(qty);
                 if (qty == 0) {
                     newStock = "None Left";
@@ -144,10 +145,14 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             @Override
             public void onClick(View view){
 
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:Order@supply.com"));
+                intent.putExtra(Intent.EXTRA_SUBJECT,"Order More " + invName);
+
                 int qty = Integer.parseInt(stockText.getText().toString());
 
 
-                qty = qty + 5;
+                qty = qty + 20;
 
 
                 if (qty >= 0){
@@ -158,13 +163,16 @@ public class InventoryCursorAdaptor extends CursorAdapter {
                     values.put(InventoryEntry.Column_Item_Price, priceText.getText().toString());
                     values.put(InventoryEntry.Column_Item_Quantity, qty);
 
-                    int rowsAffected = resolver.update(uri, values, null, null);
-                    Log.v(TAG, "rowsaffected = " + rowsAffected);
+
+;
 
                 }
-                Log.v(TAG,"currentQuantity = " + qty);
+
                 String newStock = String.valueOf(qty);
                 stockText.setText(newStock);
+
+
+
 
             }
         });

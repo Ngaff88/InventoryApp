@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
@@ -128,13 +129,16 @@ public class InventoryProvider extends ContentProvider {
             throw new IllegalArgumentException("Item requires a Name");
         }
 
-        String price = values.getAsString(InventoryEntry.Column_Item_Price);
-        if (name == null) {
+        // Check that the price is not null
+        Integer price = values.getAsInteger(InventoryEntry.Column_Item_Price);
+        if (price == null) {
             throw new IllegalArgumentException("Item requires a Price");
+
         }
 
-        String qty = values.getAsString(InventoryEntry.Column_Item_Quantity);
-        if (name == null) {
+        // Check that the quantity is not null
+        Integer qty = values.getAsInteger(InventoryEntry.Column_Item_Quantity);
+        if (qty == null && qty < 0) {
             throw new IllegalArgumentException("Item requires a Quantity");
         }
 

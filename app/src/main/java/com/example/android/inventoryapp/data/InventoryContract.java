@@ -1,6 +1,7 @@
 package com.example.android.inventoryapp.data;
 
 import android.content.ContentResolver;
+import android.media.Image;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -37,6 +38,8 @@ public class InventoryContract {
         public static final String Column_Item_Name = "name";
         public static final String Column_Item_Price = "price";
         public static final String Column_Item_Quantity = "quantity";
+        public static final String Column_Item_Image = "image";
+
 
 
 

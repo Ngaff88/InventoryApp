@@ -8,8 +8,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -19,10 +21,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
+
+import static com.example.android.inventoryapp.R.id.fab;
+import static com.example.android.inventoryapp.R.id.image_view;
 
 /**
  * Created by Nicholas on 5/24/2017.
@@ -31,6 +38,7 @@ import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     /** Identifier for the Inventory data loader */
     private static final int EXISTING_ITEM_LOADER = 0;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     /** Content URI for the existing Item (null if it's a new Item) */
     private Uri mCurrentItemUri;
@@ -43,6 +51,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     /** EditText field to enter the Item's quantity */
     private EditText mQuantityEditText;
+
+    private Button mImageBtn;
+
+    private  ImageView mImageView;
 
 
 
@@ -93,6 +105,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mNameEditText = (EditText) findViewById(R.id.item_name);
         mPriceEditText = (EditText) findViewById(R.id.item_price);
         mQuantityEditText = (EditText) findViewById(R.id.item_quantity);
+        mImageBtn = (Button) findViewById(R.id.select_image);
+        mImageView = (ImageView) findViewById(R.id.image_view);
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -100,6 +114,15 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mNameEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
+
+        Button img = mImageBtn;
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakePictureIntent();
+            }
+        });
+
 
 
     }
@@ -116,12 +139,15 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String quantityString = mQuantityEditText.getText().toString().trim();
 
 
+
+
         // Create a ContentValues object where column names are the keys,
         // and Item attributes from the editor are the values.
         ContentValues values = new ContentValues();
         values.put(InventoryEntry.Column_Item_Name, nameString);
         values.put(InventoryEntry.Column_Item_Price, priceString);
         values.put(InventoryEntry.Column_Item_Quantity, quantityString);
+
         // If the quantity is not provided by the user, don't try to parse the string into an
         // integer value. Use 0 by default.
         int quantity = 0;
@@ -399,6 +425,20 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // Close the activity
         finish();
     }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            mImageView.setImageBitmap(imageBitmap);
+        }
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
 
 }

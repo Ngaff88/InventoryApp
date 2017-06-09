@@ -10,7 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      */
     private void deleteAllItems() {
         int rowsDeleted = getContentResolver().delete(InventoryEntry.CONTENT_URI, null, null);
-        Log.v("MainActivity", rowsDeleted + " rows deleted from item database");
     }
 
     @Override
@@ -120,10 +119,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // Define a projection that specifies the columns from the table we care about.
         String[] projection = {
-                InventoryContract.InventoryEntry._ID,
-                InventoryContract.InventoryEntry.Column_Item_Name,
-                InventoryContract.InventoryEntry.Column_Item_Price,
-                InventoryContract.InventoryEntry.Column_Item_Quantity};
+                InventoryEntry._ID,
+                InventoryEntry.Column_Item_Name,
+                InventoryEntry.Column_Item_Price,
+                InventoryEntry.Column_Item_Quantity};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
