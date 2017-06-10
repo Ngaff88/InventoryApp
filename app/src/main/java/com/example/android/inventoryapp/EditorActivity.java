@@ -148,7 +148,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String nameString = mNameEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
-        mUri = Uri.parse(mImageView.toString());
         String image = mUri.toString().trim();
 
 
@@ -394,10 +393,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             int priceColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
             int quantityColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
 
+
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
             String price = cursor.getString(priceColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
+
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
@@ -519,8 +520,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
                 mImageView.setImageBitmap(getBitmapFromUri(mUri));
             }
-        } else if (requestCode == SEND_MAIL_REQUEST && resultCode == Activity.RESULT_OK) {
-
         }
     }
 
