@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     /** Identifier for the item data loader */
     private static final int INVENTORY_LOADER = 0;
 
+    private Uri mUri;
+
     /** Adapter for the ListView */
     InventoryCursorAdaptor mCursorAdapter;
 
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(intent);
             }
         });
+
+
 
         // Find the ListView which will be populated with the item data
         ListView itemListView = (ListView) findViewById(R.id.list);
@@ -115,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
 
+
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // Define a projection that specifies the columns from the table we care about.
@@ -122,7 +128,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 InventoryEntry._ID,
                 InventoryEntry.Column_Item_Name,
                 InventoryEntry.Column_Item_Price,
-                InventoryEntry.Column_Item_Quantity};
+                InventoryEntry.Column_Item_Quantity,
+                InventoryEntry.Column_Item_Image};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context

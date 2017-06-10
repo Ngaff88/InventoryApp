@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
+import static android.R.attr.start;
 import static android.content.ContentValues.TAG;
 import static com.example.android.inventoryapp.R.id.price;
 
@@ -146,8 +147,10 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             public void onClick(View view){
 
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
-                intent.setData(Uri.parse("mailto:Order@supply.com"));
+                intent.setData(Uri.parse("mailto:"));
                 intent.putExtra(Intent.EXTRA_SUBJECT,"Order More " + invName);
+                intent.putExtra(Intent.EXTRA_SUBJECT,"We need more of the " + invName + ". Send more as soon as you can.");
+                context.startActivity(intent);
 
                 int qty = Integer.parseInt(stockText.getText().toString());
 
