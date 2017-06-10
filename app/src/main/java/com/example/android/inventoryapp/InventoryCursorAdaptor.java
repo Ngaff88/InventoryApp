@@ -74,6 +74,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         final TextView nameText = (TextView) view.findViewById(R.id.name);
         final TextView priceText = (TextView) view.findViewById(price);
         final TextView stockText = (TextView) view.findViewById(R.id.in_stock);
+        final ImageView itemImage = (ImageView) view.findViewById(R.id.image);
 
         // Extract properties from cursor
 
@@ -96,11 +97,14 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             String invStock = "None Left";
         }
 
+        String itemUri = cursor.getString(image);
+
 
         // Populate fields with extracted properties
         nameText.setText(invName);
         priceText.setText(invPrice);
         stockText.setText(String.valueOf(currentquantity));
+        itemImage.setImageResource(Integer.parseInt(itemUri));
 
 
 
