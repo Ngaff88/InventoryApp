@@ -13,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
+
+import java.net.URI;
 
 import static android.R.attr.start;
 import static android.content.ContentValues.TAG;
@@ -71,6 +74,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         final TextView nameText = (TextView) view.findViewById(R.id.name);
         final TextView priceText = (TextView) view.findViewById(price);
         final TextView stockText = (TextView) view.findViewById(R.id.in_stock);
+        final ImageView imageView = (ImageView) view.findViewById(R.id.image);
 
 
         // Extract properties from cursor
@@ -79,6 +83,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         int name = cursor.getColumnIndex(InventoryEntry.Column_Item_Name);
         final int price = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
         int quantity = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
+        int image = cursor.getColumnIndex(InventoryEntry.Column_Item_Image);
         int currentquantity = cursor.getInt(quantity);
         final Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, Long.parseLong(i));
 
@@ -92,12 +97,16 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         if (quantity == 0) {
             String invStock = "None Left";
         }
+        Uri invImage = Uri.parse(cursor.getString(image));
 
 
         // Populate fields with extracted properties
         nameText.setText(invName);
         priceText.setText(invPrice);
         stockText.setText(String.valueOf(currentquantity));
+        imageView.setImageBitmap(EditorActivity.getBitmapFromUri(invImage));
+
+
 
 
         //declare button and initialize it

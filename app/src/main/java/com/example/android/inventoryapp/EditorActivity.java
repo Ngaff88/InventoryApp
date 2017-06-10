@@ -66,7 +66,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     private Button mImageBtn;
 
-    private  ImageView mImageView;
+    private static ImageView mImageView;
 
     private Uri mUri;
 
