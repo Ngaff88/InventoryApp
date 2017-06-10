@@ -127,8 +127,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
 
-        Button img = mImageBtn;
-        img.setOnClickListener(new View.OnClickListener() {
+        mImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openImageSelector();
@@ -149,7 +148,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String nameString = mNameEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
-        String image = mUri.toString();
+        mUri = Uri.parse(mImageView.toString());
+        String image = mUri.toString().trim();
 
 
 
@@ -161,7 +161,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         values.put(InventoryEntry.Column_Item_Price, priceString);
         values.put(InventoryEntry.Column_Item_Quantity, quantityString);
         if (mUri != null) {
-            values.put(InventoryEntry.Column_Item_Image, image);
+            values.put(InventoryEntry.Column_Item_Image,image);
         }
 
 
