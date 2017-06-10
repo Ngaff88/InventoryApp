@@ -30,6 +30,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.android.inventoryapp.data.InventoryContract;
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
 import java.io.FileNotFoundException;
@@ -392,13 +394,17 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             int nameColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Name);
             int priceColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
             int quantityColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
+            int imageColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Image);
+
+
+
 
 
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
             String price = cursor.getString(priceColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
-
+            mUri = Uri.parse(cursor.getString(imageColumnIndex));
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
