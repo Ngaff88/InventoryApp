@@ -23,12 +23,16 @@ import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    /** Identifier for the item data loader */
+    /**
+     * Identifier for the item data loader
+     */
     private static final int INVENTORY_LOADER = 0;
 
     private Uri mUri;
 
-    /** Adapter for the ListView */
+    /**
+     * Adapter for the ListView
+     */
     InventoryCursorAdaptor mCursorAdapter;
 
     @Override
@@ -45,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(intent);
             }
         });
-
 
 
         // Find the ListView which will be populated with the item data
@@ -116,9 +119,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 
     @Override

@@ -104,7 +104,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         nameText.setText(invName);
         priceText.setText(invPrice);
         stockText.setText(String.valueOf(currentquantity));
-        itemImage.setImageResource(Integer.parseInt(itemUri));
+        itemImage.setImageURI(Uri.parse(itemUri));
 
 
 

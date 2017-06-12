@@ -17,7 +17,6 @@ public class InventoryContract {
     public static final String PATH_STOCK = "stock";
 
 
-
     public static abstract class InventoryEntry implements BaseColumns {
         /**
          * The MIME type of the {@link #CONTENT_URI} for a list of items.
@@ -39,10 +38,6 @@ public class InventoryContract {
         public static final String Column_Item_Price = "price";
         public static final String Column_Item_Quantity = "quantity";
         public static final String Column_Item_Image = "image";
-
-
-
-
 
 
     }

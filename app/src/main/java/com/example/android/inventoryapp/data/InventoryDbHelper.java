@@ -16,25 +16,27 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Stock.db";
 
 
-    public InventoryDbHelper (Context context){
-        super (context,DATABASE_NAME,null,DATABASE_VERSION);
+    public InventoryDbHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public void onCreate(SQLiteDatabase db){
-        String SQL_CREATE_ITEM_TABLE =  "CREATE TABLE "+ InventoryEntry.Table_Name + "("+
-                InventoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                InventoryEntry.Column_Item_Name + " TEXT NOT NULL,"+
-                InventoryEntry.Column_Item_Price + " INTEGER NOT NULL,"+
+    public void onCreate(SQLiteDatabase db) {
+        String SQL_CREATE_ITEM_TABLE = "CREATE TABLE " + InventoryEntry.Table_Name + "(" +
+                InventoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                InventoryEntry.Column_Item_Name + " TEXT NOT NULL," +
+                InventoryEntry.Column_Item_Price + " INTEGER NOT NULL," +
                 InventoryEntry.Column_Item_Quantity + " INTEGER," +
                 InventoryEntry.Column_Item_Image + " TEXT);";
 
         db.execSQL(SQL_CREATE_ITEM_TABLE);
     }
-    public void onUpgrade (SQLiteDatabase db, int oldVerison, int newVersion){
+
+    public void onUpgrade(SQLiteDatabase db, int oldVerison, int newVersion) {
 
         onCreate(db);
     }
-    public void onDowngrade (SQLiteDatabase db, int oldVerison, int newVersion){
-        onUpgrade(db,oldVerison,newVersion);
+
+    public void onDowngrade(SQLiteDatabase db, int oldVerison, int newVersion) {
+        onUpgrade(db, oldVerison, newVersion);
     }
 }

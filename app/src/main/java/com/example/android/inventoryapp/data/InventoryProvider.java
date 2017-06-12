@@ -1,4 +1,5 @@
 package com.example.android.inventoryapp.data;
+
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -193,7 +194,7 @@ public class InventoryProvider extends ContentProvider {
      * specified in the selection and selection arguments (which could be 0 or 1 or more items).
      * Return the number of rows that were successfully updated.
      */
-    private  int updateItem(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    private int updateItem(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         // If the {@link InventoryEntry#Column_Item_Name} key is present,
         // check that the name value is not null.
         if (values.containsKey(InventoryEntry.Column_Item_Name)) {
@@ -207,7 +208,7 @@ public class InventoryProvider extends ContentProvider {
         // check that the price is valid.
         if (values.containsKey(InventoryEntry.Column_Item_Price)) {
             Integer price = values.getAsInteger(InventoryEntry.Column_Item_Price);
-            if (price != null && price < 0 ) {
+            if (price != null && price < 0) {
                 throw new IllegalArgumentException("Item requires valid Price");
             }
         }
@@ -278,7 +279,7 @@ public class InventoryProvider extends ContentProvider {
      * Returns the MIME type of data for the content URI.
      */
     @Override
-    public String getType (Uri uri){
+    public String getType(Uri uri) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case STOCK:
