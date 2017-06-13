@@ -86,15 +86,10 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         int currentquantity = cursor.getInt(quantity);
         final Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, Long.parseLong(i));
 
-        //final String idColumn = cursor.getString(cursor.getColumnIndexOrThrow(InventoryEntry._ID));
         final String invName = cursor.getString(name);
         String invPrice =  cursor.getString(price);
         if (cursor.getString(price).equals("0")) {
             invPrice = "Free";
-        }
-        //   invStock = cursor.getString(quantity);
-        if (quantity == 0) {
-            String invStock = "None Left";
         }
 
         String itemUri = cursor.getString(image);
@@ -149,45 +144,6 @@ public class InventoryCursorAdaptor extends CursorAdapter {
             }
         });
 
-        //declare button and initialize it
-        Button orderFive = (Button) view.findViewById(R.id.order);
-        orderFive.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
-                intent.setData(Uri.parse("mailto:"));
-                intent.putExtra(Intent.EXTRA_SUBJECT,"Order More " + invName);
-                intent.putExtra(Intent.EXTRA_SUBJECT,"We need more of the " + invName + ". Send more as soon as you can.");
-                context.startActivity(intent);
-
-                int qty = Integer.parseInt(stockText.getText().toString());
-
-
-                qty = qty + 20;
-
-
-                if (qty >= 0){
-
-                    ContentResolver resolver = view.getContext().getContentResolver();
-                    ContentValues values = new ContentValues();
-                    values.put(InventoryEntry.Column_Item_Name,nameText.getText().toString() );
-                    values.put(InventoryEntry.Column_Item_Price, priceText.getText().toString());
-                    values.put(InventoryEntry.Column_Item_Quantity, qty);
-
-
-;
-
-                }
-
-                String newStock = String.valueOf(qty);
-                stockText.setText(newStock);
-
-
-
-
-            }
-        });
 
     }
 }

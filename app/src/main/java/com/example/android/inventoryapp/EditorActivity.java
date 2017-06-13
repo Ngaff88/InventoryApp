@@ -138,6 +138,22 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
+        //declare button and initialize it
+        Button orderFive = (Button) findViewById(R.id.order);
+        orderFive.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:"));
+                intent.putExtra(Intent.EXTRA_SUBJECT,"Order More ");
+                intent.putExtra(Intent.EXTRA_SUBJECT,"We need more of this item. Send more as soon as you can.");
+                startActivity(intent);
+
+
+            }
+        });
+
 
 
     }
@@ -153,6 +169,15 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
         String image = mUri.toString().trim();
+
+        if (nameString.length()== 0){
+            mNameEditText.setError("Item needs a name");
+            finish();
+        }
+        if (priceString.length()== 0){
+            mPriceEditText.setError("Item needs a price");
+            finish();
+        }
 
 
 
