@@ -168,10 +168,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String nameString = mNameEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
-        String image = mUri.toString();
-
-        if (image == null){
-            image = "No Photo Found";
+        String image = null;
+        if(mUri != null) {
+            image = mUri.toString();
         }
 
 
@@ -386,7 +385,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             String name = cursor.getString(nameColumnIndex);
             String price = cursor.getString(priceColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
-            mUri = Uri.parse(cursor.getString(imageColumnIndex));
+            mUri = null;
+            if (mUri != null){
+                mUri =  Uri.parse(cursor.getString(imageColumnIndex));
+            }
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
