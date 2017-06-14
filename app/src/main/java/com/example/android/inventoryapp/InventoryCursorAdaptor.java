@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,19 +81,26 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
         final String i =  cursor.getString(cursor.getColumnIndex(InventoryEntry._ID));
         int name = cursor.getColumnIndex(InventoryEntry.Column_Item_Name);
-        final int price = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
+        int price = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
         int quantity = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
         int image = cursor.getColumnIndex(InventoryEntry.Column_Item_Image);
         int currentquantity = cursor.getInt(quantity);
         final Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, Long.parseLong(i));
 
-        final String invName = cursor.getString(name);
+        String invName = cursor.getString(name);
+        if (TextUtils.isEmpty(invName)){
+            invName = "Name Unknown";
+        }
+
         String invPrice =  cursor.getString(price);
-        if (cursor.getString(price).equals("0")) {
-            invPrice = "Free";
+        if (TextUtils.isEmpty(invPrice)) {
+            invPrice = "0";
         }
 
         String itemUri = cursor.getString(image);
+        if (TextUtils.isEmpty(itemUri)){
+            itemUri = "No Image Found";
+        }
 
 
         // Populate fields with extracted properties

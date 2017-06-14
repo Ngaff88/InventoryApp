@@ -168,15 +168,18 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String nameString = mNameEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
-        String image = mUri.toString().trim();
+        String image = mUri.toString();
+
+        if (image == null){
+            image = "No Photo Found";
+        }
+
 
         if (nameString.length()== 0){
             mNameEditText.setError("Item needs a name");
-            finish();
         }
         if (priceString.length()== 0){
             mPriceEditText.setError("Item needs a price");
-            finish();
         }
 
 

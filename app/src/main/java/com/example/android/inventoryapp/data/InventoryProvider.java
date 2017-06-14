@@ -132,10 +132,6 @@ public class InventoryProvider extends ContentProvider {
 
         // Check that the price is not null
         Integer price = values.getAsInteger(InventoryEntry.Column_Item_Price);
-        if (price == null) {
-            throw new IllegalArgumentException("Item requires a Price");
-
-        }
 
         // Check that the quantity is not null
         Integer qty = values.getAsInteger(InventoryEntry.Column_Item_Quantity);
