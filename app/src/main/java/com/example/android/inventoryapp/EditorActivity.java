@@ -291,10 +291,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                     if (quantityString.length() == 0){
                         mQuantityEditText.setError("Item needs a quantity");
                     }
-                    if (!nameString.isEmpty() && !priceString.isEmpty() && !quantityString.isEmpty() && image == null){
+                    if (image == null){
                         Toast.makeText(this, "Please add image to save", Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(this, "Please fill in all information to continue.", Toast.LENGTH_SHORT).show();
                     }
 
                 }else {
