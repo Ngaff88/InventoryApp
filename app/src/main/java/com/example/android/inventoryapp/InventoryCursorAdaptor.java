@@ -88,19 +88,13 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         final Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, Long.parseLong(i));
 
         String invName = cursor.getString(name);
-        if (TextUtils.isEmpty(invName)){
-            invName = "Name Unknown";
-        }
+
 
         String invPrice =  cursor.getString(price);
-        if (TextUtils.isEmpty(invPrice)) {
-            invPrice = "0";
-        }
+
 
         String itemUri = cursor.getString(image);
-        if (TextUtils.isEmpty(itemUri)){
-            itemUri = "No Image Found";
-        }
+
 
 
         // Populate fields with extracted properties

@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      */
     private static final int INVENTORY_LOADER = 0;
 
-    private Uri mUri;
 
     /**
      * Adapter for the ListView
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 // Form the content URI that represents the specific item that was clicked on,
                 // by appending the "id" (passed as input to this method) onto the
-                // {@link InventoryEntry#CONTENT_URI}.
+                // {@link InventoryEntry.CONTENT_URI}.
                 // For example, the URI would be "content://com.example.android.inventoryapp/stock/2"
                 // if the item with ID 2 was clicked on.
                 Uri currentItemUri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);

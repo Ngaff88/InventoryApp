@@ -52,7 +52,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /** Identifier for the Inventory data loader */
     private static final int EXISTING_ITEM_LOADER = 0;
     private static final int PICK_IMAGE_REQUEST = 0;
-    private static final int SEND_MAIL_REQUEST = 1;
+
 
     /** Content URI for the existing Item (null if it's a new Item) */
     private Uri mCurrentItemUri;
@@ -124,6 +124,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mImageBtn = (Button) findViewById(R.id.select_image);
         mImageView = (ImageView) findViewById(R.id.image_view);
 
+
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
@@ -143,11 +144,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         orderFive.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-
+                final String nameString = mNameEditText.getText().toString().trim();
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 intent.setData(Uri.parse("mailto:"));
-                intent.putExtra(Intent.EXTRA_SUBJECT,"Order More ");
-                intent.putExtra(Intent.EXTRA_SUBJECT,"We need more of this item. Send more as soon as you can.");
+                intent.putExtra(Intent.EXTRA_SUBJECT,"Order More " + nameString);
+                intent.putExtra(Intent.EXTRA_TEXT,"We need more "+ nameString + ". Send more as soon as you can.");
                 startActivity(intent);
 
 
@@ -162,36 +163,29 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /**
      * Get user input from editor and save Item into database.
      */
-    public  void saveItem() {
+    public void saveItem() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String nameString = mNameEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
         String image = null;
+        ContentValues values = new ContentValues();
         if(mUri != null) {
             image = mUri.toString();
         }
 
 
-        if (nameString.length()== 0){
-            mNameEditText.setError("Item needs a name");
-        }
-        if (priceString.length()== 0){
-            mPriceEditText.setError("Item needs a price");
-        }
 
 
+            // Create a ContentValues object where column names are the keys,
+            // and Item attributes from the editor are the values.
+            values.put(InventoryEntry.Column_Item_Name, nameString);
+            values.put(InventoryEntry.Column_Item_Price, priceString);
+            values.put(InventoryEntry.Column_Item_Quantity, quantityString);
+            if (mUri != null) {
+                values.put(InventoryEntry.Column_Item_Image, image);
 
-
-        // Create a ContentValues object where column names are the keys,
-        // and Item attributes from the editor are the values.
-        ContentValues values = new ContentValues();
-        values.put(InventoryEntry.Column_Item_Name, nameString);
-        values.put(InventoryEntry.Column_Item_Price, priceString);
-        values.put(InventoryEntry.Column_Item_Quantity, quantityString);
-        if (mUri != null) {
-            values.put(InventoryEntry.Column_Item_Image,image);
         }
 
 
@@ -277,10 +271,39 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
-                // Save Item to database
-                saveItem();
-                // Exit activity
-                finish();
+                String nameString = mNameEditText.getText().toString().trim();
+                String priceString = mPriceEditText.getText().toString().trim();
+                String quantityString = mQuantityEditText.getText().toString().trim();
+                String image = null;
+                if(mUri != null) {
+                    image = mUri.toString();
+                }
+
+
+                if (nameString.isEmpty() || priceString.isEmpty() || quantityString.isEmpty() || image == null){
+                    if (nameString.length()== 0){
+                        mNameEditText.setError("Item needs a name");
+                    }
+                    if (priceString.length()== 0){
+                        mPriceEditText.setError("Item needs a price");
+                    }
+
+                    if (quantityString.length() == 0){
+                        mQuantityEditText.setError("Item needs a quantity");
+                    }
+                    if (!nameString.isEmpty() && !priceString.isEmpty() && !quantityString.isEmpty() && image == null){
+                        Toast.makeText(this, "Please add image to save", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please fill in all information to continue.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }else {
+                    // Save Item to database
+                    saveItem();
+                    // Exit activity
+                    finish();
+                }
+
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
@@ -381,21 +404,19 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
 
 
+
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
             String price = cursor.getString(priceColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
-            mUri = null;
-            if (mUri != null){
-                mUri =  Uri.parse(cursor.getString(imageColumnIndex));
-            }
+            String itemUri = cursor.getString(imageColumnIndex);
+
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
             mPriceEditText.setText(price);
             mQuantityEditText.setText(Integer.toString(quantity));
-            mImageView.setImageBitmap(getBitmapFromUri(mUri));
-
+            mImageView.setImageURI(Uri.parse(itemUri));
         }
     }
 
