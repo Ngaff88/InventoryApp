@@ -74,6 +74,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private static ImageView mImageView;
 
     private Uri mUri;
+    String image = null;
 
 
     /**
@@ -195,11 +196,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String nameString = mNameEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
-        String image = null;
         ContentValues values = new ContentValues();
-        if (mUri != null) {
-            image = mUri.toString();
-        }
+        image = mUri.toString();
 
 
         // Create a ContentValues object where column names are the keys,
@@ -293,7 +291,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 String nameString = mNameEditText.getText().toString().trim();
                 String priceString = mPriceEditText.getText().toString().trim();
                 String quantityString = mQuantityEditText.getText().toString().trim();
-                String image = null;
                 if (mUri != null) {
                     image = mUri.toString();
                 }
