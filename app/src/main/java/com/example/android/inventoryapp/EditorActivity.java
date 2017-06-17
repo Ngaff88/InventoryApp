@@ -4,20 +4,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -26,21 +22,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.inventoryapp.data.InventoryContract;
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 import static com.example.android.inventoryapp.data.InventoryProvider.LOG_TAG;
 
@@ -49,21 +41,33 @@ import static com.example.android.inventoryapp.data.InventoryProvider.LOG_TAG;
  */
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    /** Identifier for the Inventory data loader */
+    /**
+     * Identifier for the Inventory data loader
+     */
     private static final int EXISTING_ITEM_LOADER = 0;
     private static final int PICK_IMAGE_REQUEST = 0;
 
+    int quantity = 0;
 
-    /** Content URI for the existing Item (null if it's a new Item) */
+
+    /**
+     * Content URI for the existing Item (null if it's a new Item)
+     */
     private Uri mCurrentItemUri;
 
-    /** EditText field to enter the Item's name */
+    /**
+     * EditText field to enter the Item's name
+     */
     private EditText mNameEditText;
 
-    /** EditText field to enter the Item's price */
+    /**
+     * EditText field to enter the Item's price
+     */
     private EditText mPriceEditText;
 
-    /** EditText field to enter the Item's quantity */
+    /**
+     * EditText field to enter the Item's quantity
+     */
     private EditText mQuantityEditText;
 
     private Button mImageBtn;
@@ -73,8 +77,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private Uri mUri;
 
 
-
-    /** Boolean flag that keeps track of whether the Item has been edited (true) or not (false) */
+    /**
+     * Boolean flag that keeps track of whether the Item has been edited (true) or not (false)
+     */
     private boolean mItemHasChanged = false;
 
     /**
@@ -125,6 +130,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mImageView = (ImageView) findViewById(R.id.image_view);
 
 
+
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
@@ -139,16 +145,16 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
-        //declare button and initialize it
+        //declare "Order More" button and initialize it
         Button orderFive = (Button) findViewById(R.id.order);
-        orderFive.setOnClickListener(new View.OnClickListener(){
+        orderFive.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 final String nameString = mNameEditText.getText().toString().trim();
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 intent.setData(Uri.parse("mailto:"));
-                intent.putExtra(Intent.EXTRA_SUBJECT,"Order More " + nameString);
-                intent.putExtra(Intent.EXTRA_TEXT,"We need more "+ nameString + ". Send more as soon as you can.");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Order More " + nameString);
+                intent.putExtra(Intent.EXTRA_TEXT, "We need more " + nameString + ". Send more as soon as you can.");
                 startActivity(intent);
 
 
@@ -157,6 +163,28 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
 
 
+    }
+
+    public void increment(View view) {
+            quantity = Integer.parseInt(mQuantityEditText.getText().toString()) + 1;
+
+        displayQuantity(quantity);
+    }
+    public void decrement(View view) {
+            quantity = Integer.parseInt(mQuantityEditText.getText().toString()) - 1;
+        if (quantity < 0){
+            Toast.makeText(this, "Can't Have a Stock of Less than Zero", Toast.LENGTH_SHORT).show();
+            quantity = 0;
+        }
+        displayQuantity(quantity);
+
+    }
+
+    /**
+     * This method displays the given quantity value on the screen.
+     */
+    private void displayQuantity(int number) {
+        mQuantityEditText.setText("" + number);
     }
 
 
@@ -171,26 +199,20 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String quantityString = mQuantityEditText.getText().toString().trim();
         String image = null;
         ContentValues values = new ContentValues();
-        if(mUri != null) {
+        if (mUri != null) {
             image = mUri.toString();
         }
 
 
-
-
-            // Create a ContentValues object where column names are the keys,
-            // and Item attributes from the editor are the values.
-            values.put(InventoryEntry.Column_Item_Name, nameString);
-            values.put(InventoryEntry.Column_Item_Price, priceString);
-            values.put(InventoryEntry.Column_Item_Quantity, quantityString);
-            if (mUri != null) {
-                values.put(InventoryEntry.Column_Item_Image, image);
+        // Create a ContentValues object where column names are the keys,
+        // and Item attributes from the editor are the values.
+        values.put(InventoryEntry.Column_Item_Name, nameString);
+        values.put(InventoryEntry.Column_Item_Price, priceString);
+        values.put(InventoryEntry.Column_Item_Quantity, quantityString);
+        if (mUri != null) {
+            values.put(InventoryEntry.Column_Item_Image, image);
 
         }
-
-
-
-
 
 
         // If the quantity is not provided by the user, don't try to parse the string into an
@@ -241,7 +263,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_editor.xml file.
@@ -275,27 +296,28 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 String priceString = mPriceEditText.getText().toString().trim();
                 String quantityString = mQuantityEditText.getText().toString().trim();
                 String image = null;
-                if(mUri != null) {
+                if (mUri != null) {
                     image = mUri.toString();
                 }
 
 
-                if (nameString.isEmpty() || priceString.isEmpty() || quantityString.isEmpty() || image == null){
-                    if (nameString.length()== 0){
+
+                if (nameString.isEmpty() || priceString.isEmpty() || Integer.parseInt(quantityString) < 1 || image == null) {
+                    if (nameString.length() == 0) {
                         mNameEditText.setError("Item needs a name");
                     }
-                    if (priceString.length()== 0){
+                    if (priceString.length() == 0) {
                         mPriceEditText.setError("Item needs a price");
                     }
 
-                    if (quantityString.length() == 0){
-                        mQuantityEditText.setError("Item needs a quantity");
+                    if (Integer.parseInt(quantityString) == 0) {
+                        mQuantityEditText.setError("Stock Needs to be More than 0");
                     }
-                    if (image == null){
+                    if (image == null) {
                         Toast.makeText(this, "Please add image to save", Toast.LENGTH_SHORT).show();
                     }
 
-                }else {
+                } else {
                     // Save Item to database
                     saveItem();
                     // Exit activity
@@ -397,10 +419,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             int priceColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
             int quantityColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
             int imageColumnIndex = cursor.getColumnIndex(InventoryEntry.Column_Item_Image);
-
-
-
-
 
 
             // Extract out the value from the Cursor for the given column index
@@ -548,7 +566,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
-    public Bitmap getBitmapFromUri(Uri uri)  {
+    public Bitmap getBitmapFromUri(Uri uri) {
 
         if (uri == null || uri.toString().isEmpty())
             return null;

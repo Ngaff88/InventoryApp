@@ -50,7 +50,7 @@
                 android:hint="@string/hint_item_name"
                 android:inputType="textCapWords" />
 
-            <!-- Breed field -->
+            <!-- Price field -->
             <EditText
                 android:id="@+id/item_price"
                 style="@style/EditorFieldStyle"
@@ -58,13 +58,45 @@
                 android:inputType="number"
                 android:maxLength="9" />
 
-            <!-- Weight field -->
+
+            <TextView
+                style="@style/EditorFieldStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="15dp"
+                android:text="@string/stock" />
+
+            <!-- Quantity field -->
             <EditText
                 android:id="@+id/item_quantity"
                 style="@style/EditorFieldStyle"
-                android:hint="@string/hint_item_quantity"
+                android:text="@string/zero"
                 android:inputType="number"
-                android:maxLength="9" />
+                android:maxLength="9"
+                android:paddingRight="40dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:onClick="increment"
+                    android:text="@string/add" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:onClick="decrement"
+                    android:text="@string/subtract" />
+
+
 
             <Button
                 android:id="@+id/order"
@@ -73,6 +105,7 @@
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:text="@string/order" />
+                </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

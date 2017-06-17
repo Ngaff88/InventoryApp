@@ -4,11 +4,8 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +16,6 @@ import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
-import java.net.URI;
-
-import static android.R.attr.start;
-import static android.content.ContentValues.TAG;
 import static com.example.android.inventoryapp.R.id.price;
 
 /**
@@ -79,7 +72,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
 
         // Extract properties from cursor
 
-        final String i =  cursor.getString(cursor.getColumnIndex(InventoryEntry._ID));
+        final String i = cursor.getString(cursor.getColumnIndex(InventoryEntry._ID));
         int name = cursor.getColumnIndex(InventoryEntry.Column_Item_Name);
         int price = cursor.getColumnIndex(InventoryEntry.Column_Item_Price);
         int quantity = cursor.getColumnIndex(InventoryEntry.Column_Item_Quantity);
@@ -90,11 +83,10 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         String invName = cursor.getString(name);
 
 
-        String invPrice =  cursor.getString(price);
+        String invPrice = cursor.getString(price);
 
 
         String itemUri = cursor.getString(image);
-
 
 
         // Populate fields with extracted properties
@@ -104,14 +96,11 @@ public class InventoryCursorAdaptor extends CursorAdapter {
         itemImage.setImageURI(Uri.parse(itemUri));
 
 
-
-
         //declare button and initialize it
         Button sellOne = (Button) view.findViewById(R.id.sell);
         sellOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
 
                 int qty = Integer.parseInt(stockText.getText().toString());
@@ -126,7 +115,7 @@ public class InventoryCursorAdaptor extends CursorAdapter {
                 if (qty >= 0) {
                     ContentResolver resolver = context.getContentResolver();
                     ContentValues values = new ContentValues();
-                    values.put(InventoryEntry.Column_Item_Name,nameText.getText().toString() );
+                    values.put(InventoryEntry.Column_Item_Name, nameText.getText().toString());
                     values.put(InventoryEntry.Column_Item_Price, priceText.getText().toString());
                     values.put(InventoryEntry.Column_Item_Quantity, qty);
 
