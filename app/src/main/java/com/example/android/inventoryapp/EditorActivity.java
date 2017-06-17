@@ -25,7 +25,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
@@ -130,7 +129,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mImageView = (ImageView) findViewById(R.id.image_view);
 
 
-
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
@@ -162,17 +160,17 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         });
 
 
-
     }
 
     public void increment(View view) {
-            quantity = Integer.parseInt(mQuantityEditText.getText().toString()) + 1;
+        quantity = Integer.parseInt(mQuantityEditText.getText().toString()) + 1;
 
         displayQuantity(quantity);
     }
+
     public void decrement(View view) {
-            quantity = Integer.parseInt(mQuantityEditText.getText().toString()) - 1;
-        if (quantity < 0){
+        quantity = Integer.parseInt(mQuantityEditText.getText().toString()) - 1;
+        if (quantity < 0) {
             Toast.makeText(this, "Can't Have a Stock of Less than Zero", Toast.LENGTH_SHORT).show();
             quantity = 0;
         }
@@ -299,7 +297,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 if (mUri != null) {
                     image = mUri.toString();
                 }
-
 
 
                 if (nameString.isEmpty() || priceString.isEmpty() || Integer.parseInt(quantityString) < 1 || image == null) {

@@ -1,7 +1,6 @@
 package com.example.android.inventoryapp.data;
 
 import android.content.ContentResolver;
-import android.media.Image;
 import android.net.Uri;
 import android.provider.BaseColumns;
 

@@ -8,11 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
-
-import static java.security.AccessController.getContext;
 
 /**
  * Created by Nicholas on 5/24/2017.

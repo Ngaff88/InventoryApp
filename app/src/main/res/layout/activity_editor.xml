@@ -70,10 +70,10 @@
             <EditText
                 android:id="@+id/item_quantity"
                 style="@style/EditorFieldStyle"
-                android:text="@string/zero"
                 android:inputType="number"
                 android:maxLength="9"
-                android:paddingRight="40dp" />
+                android:paddingRight="40dp"
+                android:text="@string/zero" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -97,15 +97,14 @@
                     android:text="@string/subtract" />
 
 
-
-            <Button
-                android:id="@+id/order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:text="@string/order" />
-                </LinearLayout>
+                <Button
+                    android:id="@+id/order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:text="@string/order" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
