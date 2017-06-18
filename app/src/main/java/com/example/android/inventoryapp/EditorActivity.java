@@ -197,7 +197,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
         ContentValues values = new ContentValues();
-        image = mUri.toString();
+        if (mUri != null) {
+            image = mUri.toString();
+        }
 
 
         // Create a ContentValues object where column names are the keys,
