@@ -429,6 +429,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             mPriceEditText.setText(price);
             mQuantityEditText.setText(Integer.toString(quantity));
             mImageView.setImageURI(Uri.parse(itemUri));
+            mUri = Uri.parse(itemUri);
         }
     }
 
